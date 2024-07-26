@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation</title>
+    <style >
+        .center {
+            text-align: center;
+        }
+        .container,h2 {
+            margin: 0 auto;
+            width: fit-content;
+        }
+        h2{
+            margin-top : 20px;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 50px auto;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="center">Email Validation</h1>
+    <form action="/validate-email" method="post" class="center container">
+        <input type="text" name="email" placeholder="Enter email address">
+        <button type="submit" class='container'>Validate</button>
+    </form>
+    {% if result %}
+        <h2 >Validation Result</h2>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ result.email }}</td>
+            </tr>
+            <tr>
+                <td>Deliverability</td>
+                <td>{{ result.deliverability }}</td>
+            </tr>
+            <tr>
+                <td>Quality Score</td>
+                <td>{{ result.quality_score }}</td>
+            </tr>
+            <tr>
+                <td>Valid Format</td>
+                <td><span class="{{ 'valid' if result.is_valid_format.value else 'invalid' }}">{{ result.is_valid_format.text }}</span></td>
+            </tr>
+            <tr>
+                <td>Free Email</td>
+                <td><span class="{{ 'valid' if result.is_free_email.value else 'invalid' }}">{{ result.is_free_email.text }}</span></td>
+            </tr>
+            <tr>
+                <td>Disposable Email</td>
+                <td><span class="{{ 'valid' if not result.is_disposable_email.value else 'invalid' }}">{{ result.is_disposable_email.text }}</span></td>
+            </tr>
+            <tr>
+                <td>Role Email</td>
+                <td><span class="{{ 'valid' if not result.is_role_email.value else 'invalid' }}">{{ result.is_role_email.text }}</span></td>
+            </tr>
+            <tr>
+                <td>Catch-All Email</td>
+                <td><span class="{{ 'valid' if not result.is_catchall_email.value else 'invalid' }}">{{ result.is_catchall_email.text }}</span></td>
+            </tr>
+            <tr>
+                <td>MX Found</td>
+                <td><span class="{{ 'valid' if result.is_mx_found.value else 'invalid' }}">{{ result.is_mx_found.text }}</span></td>
+            </tr>
+            <tr>
+                <td>SMTP Valid</td>
+                <td><span class="{{ 'valid' if result.is_smtp_valid.value else 'invalid' }}">{{ result.is_smtp_valid.text }}</span></td>
+            </tr>
+        </table>
+    {% endif %}
+</body>
+</html>
